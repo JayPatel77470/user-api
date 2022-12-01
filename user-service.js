@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 let mongoDBConnectionString = process.env.MONGO_URL;
-
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
@@ -20,7 +19,6 @@ let User;
 module.exports.connect = function () {
     return new Promise(function (resolve, reject) {
         let db = mongoose.createConnection(mongoDBConnectionString);
-
         db.on('error', err => {
             reject(err);
         });

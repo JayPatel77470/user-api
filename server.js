@@ -35,12 +35,12 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     }
 });
 
-app.use(express.json());
-app.use(cors());
 // tell passport to use our "strategy"
 passport.use(strategy);
 // add passport as application-level middleware
 app.use(passport.initialize());
+app.use(express.json());
+app.use(cors());
 
 
 app.post("/api/user/register", (req, res) => {
@@ -53,16 +53,15 @@ app.post("/api/user/register", (req, res) => {
 });
 
 app.post("/api/user/login", (req, res) => {
-    
     userService.checkUser(req.body)
         .then((user) => {
-            let payload = {
+            var payload = {
                 _id: user._id,
                 userName: user.userName
-              };
-              
-              let token = jwt.sign(payload, jwtOptions.secretOrKey);
-            res.json({ message: "login successful", token: token });
+            };
+
+            var token = jwt.sign(payload, jwtOptions.secretOrKey);
+            res.json({ message: "login successful", "token": token });
         }).catch(msg => {
             res.status(422).json({ "message": msg });
         });
